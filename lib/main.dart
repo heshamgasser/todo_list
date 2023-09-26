@@ -23,7 +23,9 @@ class Todo extends StatelessWidget {
   Widget build(BuildContext context) {
     
     var appProvider  =Provider.of<SettingProvider>(context);
-    
+
+    appProvider.savedSetting();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
