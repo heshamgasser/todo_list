@@ -1,3 +1,9 @@
 {
-  "helloWorld": "Hello World!"
+  "english": "English",
+  "language": "Language",
+  "theme": "Theme",
+  "lightTheme": "Light Theme",
+  "darkTheme": "Dark Theme",
+  "system": "System Theme",
+  "arabic": "Arabic"
 }

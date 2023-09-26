@@ -39,6 +39,13 @@ class AppTheme {
 
     ),
 
+    dividerTheme: DividerThemeData(
+      color: Color(0xFF5D9CEC),
+      thickness: 3.r,
+      indent: 50.w,
+      endIndent: 50.w
+    ),
+
 
      );
 

@@ -1,3 +1,9 @@
 {
-  "helloWorld": "Hello World!"
+  "english": "اللغة الإنجليزية",
+  "language": "اللغة",
+  "theme": "النمط",
+  "lightTheme": "النمط النهاري",
+  "darkTheme": "النمط الليلي",
+  "system": "نمط نظام التشغيل",
+  "arabic": "اللغة العربية"
 }

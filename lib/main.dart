@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/provider/setting_provider.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/style/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main (){
-  runApp(ScreenUtilInit(
-    designSize: Size(412, 870),
-      child: Todo(),),);
+  runApp(ChangeNotifierProvider(
+    create: (context) => SettingProvider(),
+    child: ScreenUtilInit(
+      designSize: Size(412, 870),
+        child: Todo(),),
+  ),);
 }
 
 class Todo extends StatelessWidget {
@@ -16,6 +21,9 @@ class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    var appProvider  =Provider.of<SettingProvider>(context);
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
@@ -25,6 +33,7 @@ class Todo extends StatelessWidget {
 
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      themeMode: appProvider.appTheme,
 
       localizationsDelegates: [
         AppLocalizations.delegate, // Add this line
@@ -34,8 +43,10 @@ class Todo extends StatelessWidget {
       ],
       supportedLocales: [
         Locale('en'), // English
-        Locale('es'), // Spanish
+        Locale('ar'), // Spanish
       ],
+      
+      locale: Locale(appProvider.languageCode),
 
 
     );
