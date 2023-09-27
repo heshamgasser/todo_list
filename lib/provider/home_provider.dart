@@ -26,7 +26,11 @@ class HomeProvider extends ChangeNotifier {
       ),
       context: context,
       builder: (context) {
-        return AddTask();
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: AddTask(),
+        );
       },
     );
     notifyListeners();

@@ -2,14 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskTextFormField extends StatelessWidget {
- String labelText;
+  String labelText;
+  TextInputAction keyboardAction;
+  int maxLines;
 
-
- TaskTextFormField(this.labelText);
+  TaskTextFormField(
+      {required this.labelText,
+      required this.keyboardAction,
+      this.maxLines = 1});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Field Required';
+        }
+        return null;
+      },
+      textInputAction: keyboardAction,
+      maxLines: maxLines,
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.r),
@@ -36,8 +48,7 @@ class TaskTextFormField extends StatelessWidget {
             ),
           ),
           labelText: labelText,
-          labelStyle: Theme.of(context).textTheme.labelLarge
-      ),
+          labelStyle: Theme.of(context).textTheme.labelLarge),
     );
   }
 }
