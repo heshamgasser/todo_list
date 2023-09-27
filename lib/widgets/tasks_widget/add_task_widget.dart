@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/provider/add_task_provider.dart';
+import 'package:todo/provider/setting_provider.dart';
 import 'package:todo/style/app_colors.dart';
 import 'package:todo/widgets/tasks_widget/date_time_container.dart';
 import 'package:todo/widgets/tasks_widget/task_elevated_button.dart';
@@ -16,6 +17,7 @@ class AddTask extends StatelessWidget {
       create: (context) => AddTaskProvider(),
       builder: (context, child) {
         var addTaskProvider = Provider.of<AddTaskProvider>(context);
+        var settingProvider = Provider.of<SettingProvider>(context);
 
         return SingleChildScrollView(
           child: Padding(
@@ -60,9 +62,13 @@ class AddTask extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      DateTimeContainer('12:00 PM'),
+                      DateTimeContainer(dateTimeText: '12:00 PM' , dateTimeFunction: (){
+                        addTaskProvider.timePickerFunction(context);
+                      },),
                       SizedBox(width: 15.w),
-                      DateTimeContainer('27/09/2023'),
+                      DateTimeContainer(dateTimeText: '27/09/2023', dateTimeFunction: (){
+                        addTaskProvider.datePickerFunction(context, settingProvider.languageCode);
+                      },),
                     ],
                   ),
                   SizedBox(height: 30.h),
