@@ -6,6 +6,14 @@ class AddTaskProvider extends ChangeNotifier {
   DateTime? date = DateUtils.dateOnly(DateTime.now());
   TimeOfDay? time = TimeOfDay.now();
 
+  bool taskDone = false;
+
+  void changeTaskStatus (){
+    taskDone = !taskDone;
+    notifyListeners();
+  }
+
+
   void formValidate(BuildContext context) {
     if (formKey.currentState!.validate()) {
       Navigator.pop(context);
