@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
         var homeProvider = Provider.of<HomeProvider>(context);
 
         return Scaffold(
+          extendBody: true,
           appBar: AppBar(
             title: Text(
               'To Do List',
@@ -22,13 +23,13 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: BottomAppBar(
-
             shape: CircularNotchedRectangle(
             ),
             notchMargin: 10.r,
             clipBehavior: Clip.antiAliasWithSaveLayer,
 
             child: BottomNavigationBar(
+
               currentIndex: homeProvider.selectedIndex,
               onTap: (value) {
                 homeProvider.changeIndex(value);
@@ -53,9 +54,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-
+            shape: StadiumBorder(side: BorderSide(color: Colors.white , width: 4.r),),
             child: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              homeProvider.showAddTaskBottomSheet(context);
+            },
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 

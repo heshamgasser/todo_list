@@ -7,6 +7,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
       appBarTheme: AppBarTheme(
           color: Color(0xFF5D9CEC),
+          iconTheme: IconThemeData(color: Colors.white, size: 30.r),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(20.r),
@@ -55,6 +56,7 @@ class AppTheme {
     secondaryHeaderColor: AppColors.darkBottomNavigationBarColor,
 
     appBarTheme: AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.white, size: 30.r),
         color: Color(0xFF5D9CEC),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
