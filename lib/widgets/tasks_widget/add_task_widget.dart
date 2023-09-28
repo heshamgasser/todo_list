@@ -62,13 +62,21 @@ class AddTask extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      DateTimeContainer(dateTimeText: '12:00 PM' , dateTimeFunction: (){
-                        addTaskProvider.timePickerFunction(context);
-                      },),
+                      DateTimeContainer(
+                        dateTimeText: addTaskProvider.time!.format(context).toString(),
+                        dateTimeFunction: () {
+                          addTaskProvider.timePickerFunction(context);
+                        },
+                      ),
                       SizedBox(width: 15.w),
-                      DateTimeContainer(dateTimeText: '27/09/2023', dateTimeFunction: (){
-                        addTaskProvider.datePickerFunction(context, settingProvider.languageCode);
-                      },),
+                      DateTimeContainer(
+                        dateTimeText:
+                            addTaskProvider.date.toString().substring(0, 10),
+                        dateTimeFunction: () {
+                          addTaskProvider.datePickerFunction(
+                              context, settingProvider.languageCode);
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(height: 30.h),
