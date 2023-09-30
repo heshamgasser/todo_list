@@ -87,6 +87,7 @@ class AddTask extends StatelessWidget {
                         buttonColor: AppColors.lightTaskColor,
                         buttonFunction: () {
                           addTaskProvider.formValidate(context);
+
                         },
                       ),
                       SizedBox(width: 15.w),

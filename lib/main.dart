@@ -7,22 +7,23 @@ import 'package:todo/provider/setting_provider.dart';
 import 'package:todo/screens/home_screen.dart';
 import 'package:todo/style/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'firebase_options.dart';
 
-void main () async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => SettingProvider(),
-    child: ScreenUtilInit(
-      designSize: Size(412, 870),
-        child: Todo(),),
-  ),);
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SettingProvider(),
+      child: ScreenUtilInit(
+        designSize: Size(412, 870),
+        child: Todo(),
+      ),
+       ),
+  );
 }
 
 class Todo extends StatelessWidget {
@@ -30,8 +31,7 @@ class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    var appProvider  =Provider.of<SettingProvider>(context);
+    var appProvider = Provider.of<SettingProvider>(context);
 
     appProvider.savedSetting();
 
@@ -39,13 +39,11 @@ class Todo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
       routes: {
-        HomeScreen.routeName:(context) => HomeScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
       },
-
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: appProvider.appTheme,
-
       localizationsDelegates: [
         AppLocalizations.delegate, // Add this line
         GlobalMaterialLocalizations.delegate,
@@ -56,11 +54,7 @@ class Todo extends StatelessWidget {
         Locale('en'), // English
         Locale('ar'), // Spanish
       ],
-      
       locale: Locale(appProvider.languageCode),
-
-
     );
   }
 }
-

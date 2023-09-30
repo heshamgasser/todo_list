@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:todo/models/task_model.dart';
 
 class AddTaskProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey();
 
   DateTime? date = DateUtils.dateOnly(DateTime.now());
   TimeOfDay? time = TimeOfDay.now();
+
+
+
 
   bool taskDone = false;
 
@@ -17,6 +21,7 @@ class AddTaskProvider extends ChangeNotifier {
   void formValidate(BuildContext context) {
     if (formKey.currentState!.validate()) {
       Navigator.pop(context);
+      
       notifyListeners();
     }
   }
