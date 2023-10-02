@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 class TaskModel {
   String id;
   String title;
   String description;
-  DateTime date;
-  TimeOfDay time;
+  DateTime? date;
+  TimeOfDay? time;
   bool status;
 
   TaskModel(

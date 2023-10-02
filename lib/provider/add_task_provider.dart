@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/models/task_model.dart';
+import 'package:todo/network/remote/firebase_function.dart';
 
 class AddTaskProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey();
@@ -7,12 +8,13 @@ class AddTaskProvider extends ChangeNotifier {
   DateTime? date = DateUtils.dateOnly(DateTime.now());
   TimeOfDay? time = TimeOfDay.now();
 
-
+  TextEditingController taskTitle = TextEditingController();
+  TextEditingController taskDescription = TextEditingController();
 
 
   bool taskDone = false;
 
-  void changeTaskStatus (){
+  void changeTaskStatus() {
     taskDone = !taskDone;
     notifyListeners();
   }
@@ -20,13 +22,30 @@ class AddTaskProvider extends ChangeNotifier {
 
   void formValidate(BuildContext context) {
     if (formKey.currentState!.validate()) {
+      TaskModel taskModel = TaskModel(title: taskTitle.text,
+          description: taskDescription.text,
+          date: date,
+          time: time,
+          status: taskDone);
+      FirebaseFunctions.addTaskToFireStore(taskModel);
       Navigator.pop(context);
-      
       notifyListeners();
     }
   }
 
-  void datePickerFunction(BuildContext context, String lang) async{
+  void addTask (BuildContext context){
+    TaskModel taskModel = TaskModel(title: taskTitle.text,
+        description: taskDescription.text,
+        date: date,
+        time: time,
+        status: taskDone);
+    FirebaseFunctions.addTaskToFireStore(taskModel);
+    Navigator.pop(context);
+    notifyListeners();
+  }
+
+
+  void datePickerFunction(BuildContext context, String lang) async {
     DateTime? selectedDate = await showDatePicker(
       keyboardType: TextInputType.number,
       locale: Locale(lang),
@@ -38,16 +57,16 @@ class AddTaskProvider extends ChangeNotifier {
         Duration(days: 365 * 2),
       ),
     );
-    date = selectedDate;
+    date = selectedDate ?? DateUtils.dateOnly(DateTime.now());
     notifyListeners();
   }
 
-  void timePickerFunction(BuildContext context) async{
+  void timePickerFunction(BuildContext context) async {
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    time = selectedTime;
+    time = selectedTime ?? TimeOfDay.now();
     notifyListeners();
   }
 }

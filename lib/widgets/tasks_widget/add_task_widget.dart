@@ -7,6 +7,8 @@ import 'package:todo/style/app_colors.dart';
 import 'package:todo/widgets/tasks_widget/date_time_container.dart';
 import 'package:todo/widgets/tasks_widget/task_elevated_button.dart';
 import 'package:todo/widgets/tasks_widget/task_text_form_field.dart';
+import '../../models/task_model.dart';
+import '../../network/remote/firebase_function.dart';
 
 class AddTask extends StatelessWidget {
   const AddTask({super.key});
@@ -36,10 +38,12 @@ class AddTask extends StatelessWidget {
                   ),
                   SizedBox(height: 40.h),
                   TaskTextFormField(
+                      controller: addTaskProvider.taskTitle,
                       labelText: 'Enter Your Task',
                       keyboardAction: TextInputAction.next),
                   SizedBox(height: 30.h),
                   TaskTextFormField(
+                      controller: addTaskProvider.taskDescription,
                       labelText: 'Enter Task Description',
                       keyboardAction: TextInputAction.newline,
                       maxLines: 4),
@@ -47,10 +51,11 @@ class AddTask extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                          child: Text(
-                        'Select Time',
-                        style: Theme.of(context).textTheme.displayLarge,
-                      )),
+                        child: Text(
+                          'Select Time',
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      ),
                       SizedBox(width: 15.w),
                       Expanded(
                         child: Text(
@@ -63,7 +68,8 @@ class AddTask extends StatelessWidget {
                   Row(
                     children: [
                       DateTimeContainer(
-                        dateTimeText: addTaskProvider.time!.format(context).toString(),
+                        dateTimeText:
+                            addTaskProvider.time!.format(context).toString(),
                         dateTimeFunction: () {
                           addTaskProvider.timePickerFunction(context);
                         },
@@ -86,17 +92,27 @@ class AddTask extends StatelessWidget {
                         buttonText: 'Add Task',
                         buttonColor: AppColors.lightTaskColor,
                         buttonFunction: () {
-                          addTaskProvider.formValidate(context);
-
+                          if (addTaskProvider.formKey.currentState!
+                              .validate()) {
+                            TaskModel taskModel = TaskModel(title: addTaskProvider.taskTitle.text,
+                                description: addTaskProvider. taskDescription.text,
+                                date: addTaskProvider. date,
+                                time: addTaskProvider. time,
+                                status: addTaskProvider. taskDone);
+                            FirebaseFunctions.addTaskToFireStore(taskModel);
+                            Navigator.pop(context);
+                            // addTaskProvider.addTask(context);
+                          }
                         },
                       ),
                       SizedBox(width: 15.w),
                       TaskElevatedButton(
-                          buttonText: 'Cancel',
-                          buttonColor: Colors.red,
-                          buttonFunction: () {
-                            Navigator.pop(context);
-                          }),
+                        buttonText: 'Cancel',
+                        buttonColor: Colors.red,
+                        buttonFunction: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
                 ],

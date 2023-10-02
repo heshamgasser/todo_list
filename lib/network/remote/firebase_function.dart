@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo/models/task_model.dart';
 
-class FirebaseFuctions {
+class FirebaseFunctions {
   static CollectionReference<TaskModel> getCollection() {
     return FirebaseFirestore.instance
         .collection('Tasks')
@@ -21,6 +21,6 @@ class FirebaseFuctions {
 
   static Future<QuerySnapshot<TaskModel>> getTaskFromFireStore() {
     var collection = getCollection();
-    return collection.get();
+     return collection.get();
   }
 }
