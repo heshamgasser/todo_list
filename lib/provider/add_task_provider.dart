@@ -21,8 +21,8 @@ class AddTaskProvider extends ChangeNotifier {
     if (formKey.currentState!.validate()) {
       TaskModel taskModel = TaskModel(title: taskTitle.text,
           description: taskDescription.text,
-          // date: date!.microsecondsSinceEpoch,
-          // time: time!.format(context),
+          date: date!.microsecondsSinceEpoch,
+          time: time!.format(context),
           status: taskDone);
       FirebaseFunctions.addTaskToFireStore(taskModel);
       Navigator.pop(context);

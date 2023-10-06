@@ -41,6 +41,7 @@ class TaskItem extends StatelessWidget {
                   : Theme.of(context).textTheme.headlineLarge,
             ),
             subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   task.description,
@@ -60,10 +61,10 @@ class TaskItem extends StatelessWidget {
                     SizedBox(
                       width: 9.w,
                     ),
-                    // Text(
-                    //   task.time,
-                    //   style: Theme.of(context).textTheme.displaySmall,
-                    // ),
+                    Text(
+                      task.time,
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
                   ],
                 ),
               ],
