@@ -12,15 +12,24 @@ class FirebaseFunctions {
         );
   }
 
-  static void addTaskToFireStore(TaskModel task) async{
+  static Future<void> addTaskToFireStore(TaskModel task) async {
     var collection = getCollection();
     var docRef = collection.doc();
     task.id = docRef.id;
-     docRef.set(task);
+    docRef.set(task);
   }
 
-  static Future<QuerySnapshot<TaskModel>> getTaskFromFireStore() {
+  static Stream<QuerySnapshot<TaskModel>> getTaskFromFireStore(DateTime selectedDate) {
     var collection = getCollection();
-     return collection.get();
+    return collection.where('date', isEqualTo: selectedDate.microsecondsSinceEpoch).snapshots();
   }
+
+  static Future<void> deleteTaskFromFireBase(String id) {
+   return getCollection().doc(id).delete();
+  }
+
+  static Future<void> updateTaskInFireBase(String id, TaskModel updatedTask) {
+    return getCollection().doc(id).update(updatedTask.toJson());
+  }
+
 }

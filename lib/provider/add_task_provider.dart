@@ -5,6 +5,7 @@ import 'package:todo/network/remote/firebase_function.dart';
 class AddTaskProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey();
   DateTime? date = DateUtils.dateOnly(DateTime.now());
+  DateTime tabSelectedDate = DateUtils.dateOnly(DateTime.now());
   TimeOfDay? time = TimeOfDay.now();
 
   TextEditingController taskTitle = TextEditingController();
@@ -16,6 +17,12 @@ class AddTaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void changeTabDate(DateTime date) {
+    tabSelectedDate = date;
+    notifyListeners();
+  }
+
+
 
   void addTaskToFireBase(BuildContext context) {
     if (formKey.currentState!.validate()) {
@@ -24,8 +31,10 @@ class AddTaskProvider extends ChangeNotifier {
           date: date!.microsecondsSinceEpoch,
           time: time!.format(context),
           status: taskDone);
-      FirebaseFunctions.addTaskToFireStore(taskModel);
-      Navigator.pop(context);
+      FirebaseFunctions.addTaskToFireStore(taskModel).then((value){
+        Navigator.pop(context);
+      });
+
       notifyListeners();
     }
   }
