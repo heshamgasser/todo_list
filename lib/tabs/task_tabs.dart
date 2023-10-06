@@ -1,14 +1,10 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:todo/provider/add_task_provider.dart';
-import 'package:todo/style/app_colors.dart';
+import 'package:todo/network/remote/firebase_function.dart';
 import 'package:todo/widgets/tasks_widget/task_widget.dart';
 
 class TasksTab extends StatelessWidget {
-  const TasksTab({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,20 +30,35 @@ class TasksTab extends StatelessWidget {
             locale: 'en_ISO',
           ),
           SizedBox(height: 20.h),
-          Expanded(
-            child: ListView.separated(
-
-
-              itemBuilder: (context, index) {
-                return TaskItem();
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 44.h,
+          FutureBuilder(
+            future: FirebaseFunctions.getTaskFromFireStore(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Dialog(
+                  child: Text(
+                    'Something Went Wrong',
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
                 );
-              },
-              itemCount: 5,
-            ),
+              }
+              var tasks  = snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
+              return Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return TaskItem(tasks[index]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 44.h,
+                    );
+                  },
+                  itemCount: tasks.length,
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -4,7 +4,7 @@ import 'package:todo/models/task_model.dart';
 class FirebaseFunctions {
   static CollectionReference<TaskModel> getCollection() {
     return FirebaseFirestore.instance
-        .collection('Tasks')
+        .collection('To Do Tasks')
         .withConverter<TaskModel>(
           fromFirestore: (snapshot, options) =>
               TaskModel.fromJson(snapshot.data()!),
@@ -12,11 +12,11 @@ class FirebaseFunctions {
         );
   }
 
-  static void addTaskToFireStore(TaskModel task) {
+  static void addTaskToFireStore(TaskModel task) async{
     var collection = getCollection();
     var docRef = collection.doc();
     task.id = docRef.id;
-    docRef.set(task);
+     docRef.set(task);
   }
 
   static Future<QuerySnapshot<TaskModel>> getTaskFromFireStore() {

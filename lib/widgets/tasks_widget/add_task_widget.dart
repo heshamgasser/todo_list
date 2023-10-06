@@ -7,8 +7,6 @@ import 'package:todo/style/app_colors.dart';
 import 'package:todo/widgets/tasks_widget/date_time_container.dart';
 import 'package:todo/widgets/tasks_widget/task_elevated_button.dart';
 import 'package:todo/widgets/tasks_widget/task_text_form_field.dart';
-import '../../models/task_model.dart';
-import '../../network/remote/firebase_function.dart';
 
 class AddTask extends StatelessWidget {
   const AddTask({super.key});
@@ -92,17 +90,7 @@ class AddTask extends StatelessWidget {
                         buttonText: 'Add Task',
                         buttonColor: AppColors.lightTaskColor,
                         buttonFunction: () {
-                          if (addTaskProvider.formKey.currentState!
-                              .validate()) {
-                            TaskModel taskModel = TaskModel(title: addTaskProvider.taskTitle.text,
-                                description: addTaskProvider. taskDescription.text,
-                                date: addTaskProvider. date,
-                                time: addTaskProvider. time,
-                                status: addTaskProvider. taskDone);
-                            FirebaseFunctions.addTaskToFireStore(taskModel);
-                            Navigator.pop(context);
-                            // addTaskProvider.addTask(context);
-                          }
+                            addTaskProvider.addTaskToFireBase(context);
                         },
                       ),
                       SizedBox(width: 15.w),
