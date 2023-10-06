@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/models/task_model.dart';
 import 'package:todo/provider/add_task_provider.dart';
 import 'package:todo/provider/setting_provider.dart';
 import 'package:todo/style/app_colors.dart';
@@ -8,8 +9,11 @@ import 'package:todo/widgets/tasks_widget/date_time_container.dart';
 import 'package:todo/widgets/tasks_widget/task_elevated_button.dart';
 import 'package:todo/widgets/tasks_widget/task_text_form_field.dart';
 
-class AddTask extends StatelessWidget {
-  const AddTask({super.key});
+class EditTask extends StatelessWidget {
+  TaskModel task;
+
+
+  EditTask(this.task);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class AddTask extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Add New Task',
+                    'Edit Task',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displayMedium,
                   ),

@@ -1,27 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:todo/models/task_model.dart';
+import 'package:todo/network/remote/firebase_function.dart';
 
 class AddTaskProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey();
-
   DateTime? date = DateUtils.dateOnly(DateTime.now());
+  DateTime tabSelectedDate = DateUtils.dateOnly(DateTime.now());
   TimeOfDay? time = TimeOfDay.now();
 
+  TextEditingController taskTitle = TextEditingController();
+  TextEditingController taskDescription = TextEditingController();
   bool taskDone = false;
 
-  void changeTaskStatus (){
+  void changeTaskStatus() {
     taskDone = !taskDone;
     notifyListeners();
   }
 
+  void changeTabDate(DateTime date) {
+    tabSelectedDate = date;
+    notifyListeners();
+  }
 
-  void formValidate(BuildContext context) {
+
+
+  void addTaskToFireBase(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      Navigator.pop(context);
+      TaskModel taskModel = TaskModel(title: taskTitle.text,
+          description: taskDescription.text,
+          date: date!.microsecondsSinceEpoch,
+          time: time!.format(context),
+          status: taskDone);
+      FirebaseFunctions.addTaskToFireStore(taskModel).then((value){
+        Navigator.pop(context);
+      });
+
       notifyListeners();
     }
   }
 
-  void datePickerFunction(BuildContext context, String lang) async{
+
+
+
+  void datePickerFunction(BuildContext context, String lang) async {
     DateTime? selectedDate = await showDatePicker(
       keyboardType: TextInputType.number,
       locale: Locale(lang),
@@ -33,16 +54,16 @@ class AddTaskProvider extends ChangeNotifier {
         Duration(days: 365 * 2),
       ),
     );
-    date = selectedDate;
+    date = selectedDate ?? DateUtils.dateOnly(DateTime.now());
     notifyListeners();
   }
 
-  void timePickerFunction(BuildContext context) async{
+  void timePickerFunction(BuildContext context) async {
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    time = selectedTime;
+    time = selectedTime ?? TimeOfDay.now();
     notifyListeners();
   }
 }
